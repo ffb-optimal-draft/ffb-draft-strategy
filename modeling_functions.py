@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore')
 pd.set_option('display.max_columns', 100)
 
 from prepare import x_y_split, rmse
-from xgboost import XGBRegressor
+import xgboost
 
 from sklearn.preprocessing import StandardScaler, RobustScaler
 
