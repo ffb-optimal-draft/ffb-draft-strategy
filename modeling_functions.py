@@ -1,12 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-<<<<<<< HEAD
-# In[1]:
-=======
-# In[7]:
->>>>>>> @{u}
-
 
 import pandas as pd
 import numpy as np
@@ -33,11 +27,9 @@ def acquire_seasons():
     seasons = range(2016,2023)
     positions = ['QB','RB','WR','TE']
     add = []
-<<<<<<< HEAD
-=======
-    
+
     df = df[df['g'] > 5]
->>>>>>> @{u}
+
 
     for s in seasons:
         for p in positions:
@@ -125,18 +117,18 @@ def acquire_seasons():
 
 def add_target(group):
     group['target'] = group['ppr_pts'].shift(-1)
-<<<<<<< HEAD
+
     return group
 
 
 # In[5]:
-=======
+
     group = group.fillna(0)
     return group
 
 
 # In[13]:
->>>>>>> @{u}
+
 
 
 def split_pos(df):
@@ -146,11 +138,11 @@ def split_pos(df):
     wr_df = df[df['pos']=='WR']
     te_df = df[df['pos']=='TE']
     
-<<<<<<< HEAD
+
     qb_df = qb_df[qb_df['player']!='Tim Boyle']
     
     qb_df.drop(columns=['rk','pos','tgt','rec','rec_yards','y/r','rec_tds','standard_pts','vbd', 'team'], inplace=True)
-=======
+
     qb_df = qb_df[(qb_df['player']!= 'Tom Brady') & 
                   (qb_df['player']!='Marcus Mariota')]
     
@@ -169,7 +161,7 @@ def split_pos(df):
     
     qb_df.drop(columns=['rk','pos','tgt','rec','rec_yards','y/r','rec_tds','standard_pts','vbd', 'team',
                         'cmp','pass_att','int'], inplace=True)
->>>>>>> @{u}
+
     rb_df.drop(columns=['rk','team','pos','cmp','pass_att','pass_yds','pass_tds','int','standard_pts','vbd'], inplace=True)
     wr_df.drop(columns=['rk','team','pos','cmp','pass_tds','pass_att','pass_yds','int','rush_att','rush_yard','y/a','rush_tds',
                     'standard_pts','vbd'],inplace=True)
@@ -210,7 +202,7 @@ def xgb_modeling(df, cols):
     X_test = df[df['year']==2022]
     
     y_train = X_train['target']
-<<<<<<< HEAD
+
     X_train.drop(columns='target', inplace = True)
     
     y_val = X_val['target']
@@ -221,14 +213,14 @@ def xgb_modeling(df, cols):
     X_train.drop(columns=['year'],inplace=True)
     X_val.drop(columns=['year'],inplace=True)
     X_test.drop(columns=['year'],inplace=True)
-=======
+
     X_train.drop(columns=['target'], inplace = True)
     
     y_val = X_val['target']
     X_val.drop(columns=['target'], inplace = True)
 
     X_test.drop(columns=['target'], inplace = True)
->>>>>>> @{u}
+
     
     ss = StandardScaler()
     
@@ -256,13 +248,13 @@ def xgb_modeling(df, cols):
                               'xgb_val_preds':xgb_val_preds})
     
     
-<<<<<<< HEAD
+
     pos_2022 = pd.DataFrame({'player':X_test['player'],
                              'preds':xgb.predict(X_test[cols])})
     
     
     return preds, val_preds, pos_2022
-=======
+
     pos_2023 = pd.DataFrame({'player':X_test['player'],
                              'preds':xgb.predict(X_test[cols])})
     
@@ -301,7 +293,7 @@ wr_cols = ['age','g','gs','tgt','rec','rec_yards','y/r','rec_tds','fmb','fl','ru
 
 te_cols = ['age','g','gs','tgt','rec','rec_yards','y/r','rec_tds','fmb','fl','rush_rec_tds','ppr_pts','pos_rank',
            'avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
->>>>>>> @{u}
+
 
 
 # In[ ]:
