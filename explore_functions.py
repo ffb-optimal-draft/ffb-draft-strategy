@@ -82,41 +82,44 @@ def success_rate_by_season(df):
 
 def qb_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Quarterback Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
-    df[df.pos=='QB'].groupby('pos_rank')['ppr_pts'].mean()[0:24].plot(ax=axs[0], color='black').grid(axis = 'y')
+    a, b, c, d = 6, 12, 18, 24
+    df[df.pos=='QB'].groupby('pos_rank')['ppr_pts'].mean()[0:23].plot(ax=axs[0], color='black').grid(axis = 'y')
+    axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
-    axs[0].set_ylabel('Points Scored')
+    axs[0].set_ylabel('Avg Points Scored')
     axs[0].axvline(x=6, color = 'red', linestyle = '--')
     axs[0].axvline(x=12, color = 'green', linestyle = ':')
+    axs[0].set_xticks((a, b, c, d))
     axs[0].tick_params(axis='x', labelsize=10)
     
-    df[df.pos=='QB'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black').grid(axis = 'y')
+    df[df.pos=='QB'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black', legend = None).grid(axis = 'y')
+    axs[1].set_title('Optimal Draft Rounds')
     axs[1].set_xlabel('Round Drafted')
-    axs[1].set_ylabel(' ')
+    axs[1].set_ylabel('Avg Points Scored')
     axs[1].axvline(x=5, color = 'red', linestyle = '--')
     axs[1].axvline(x=6, color = 'red', linestyle = '--')
     axs[1].axvline(x=8, color = 'green', linestyle = 'dashdot')
     axs[1].axvline(x=10, color = 'green', linestyle = 'dashdot')
     axs[1].tick_params(axis='x', labelsize=10)
+
     plt.show()
 
 #---------------------------------------------------------------
 
 def rb_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Running Back Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
-    df[df.pos=='RB'].groupby('pos_rank')['ppr_pts'].mean()[0:45].plot(ax=axs[0], color='black').grid(axis = 'y')
+    df[df.pos=='RB'].groupby('pos_rank')['ppr_pts'].mean()[0:42].plot(ax=axs[0], color='black').grid(axis = 'y')
+    axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
-    axs[0].set_ylabel('Points Scored')
+    axs[0].set_ylabel('Avg Points Scored')
     axs[0].axvline(x=7, color = 'red', linestyle = '--')
     axs[0].axvline(x=30, color = 'green', linestyle = ':')
     axs[0].tick_params(axis='x', labelsize=10)
     
-    df[df.pos=='RB'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black').grid(axis = 'y')
+    df[df.pos=='RB'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black', legend = None).grid(axis = 'y')
+    axs[1].set_title('Optimal Draft Rounds')
     axs[1].set_xlabel('Round Drafted')
-    axs[1].set_ylabel(' ')
+    axs[1].set_ylabel('Avg Points Scored')
     axs[1].axvline(x=1, color = 'red', linestyle = '--')
     axs[1].axvline(x=4, color = 'red', linestyle = '--')
     axs[1].axvline(x=11, color = 'green', linestyle = 'dashdot')
@@ -128,18 +131,18 @@ def rb_draft_strat(df):
 
 def wr_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Wide Receiver Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
-    df[df.pos=='WR'].groupby('pos_rank')['ppr_pts'].mean()[0:45].plot(ax=axs[0], color='black').grid(axis = 'y')
+    df[df.pos=='WR'].groupby('pos_rank')['ppr_pts'].mean()[0:42].plot(ax=axs[0], color='black').grid(axis = 'y')
+    axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
-    axs[0].set_ylabel('Points Scored')
+    axs[0].set_ylabel('Avg Points Scored')
     axs[0].axvline(x=10, color = 'red', linestyle = '--')
     axs[0].axvline(x=30, color = 'green', linestyle = ':')
     axs[0].tick_params(axis='x', labelsize=10)
     
-    df[df.pos=='WR'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black').grid(axis = 'y')
+    df[df.pos=='WR'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black', legend = None).grid(axis = 'y')
+    axs[1].set_title('Optimal Draft Rounds')
     axs[1].set_xlabel('Round Drafted')
-    axs[1].set_ylabel(' ')
+    axs[1].set_ylabel('Avg Points Scored')
     axs[1].axvline(x=1, color = 'red', linestyle = '--')
     axs[1].axvline(x=6, color = 'red', linestyle = '--')
     axs[1].axvline(x=7, color = 'green', linestyle = 'dashdot')
@@ -150,18 +153,20 @@ def wr_draft_strat(df):
 
 def te_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Tight Ends Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
+    a, b, c, d = 6, 12, 18, 24
     df[df.pos=='TE'].groupby('pos_rank')['ppr_pts'].mean()[0:24].plot(ax=axs[0], color='black').grid(axis = 'y')
+    axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
-    axs[0].set_ylabel('Points Scored')
+    axs[0].set_ylabel('Avg Points Scored')
     axs[0].axvline(x=3, color = 'red', linestyle = '--')
     axs[0].axvline(x=12, color = 'green', linestyle = ':')
+    axs[0].set_xticks((a, b, c, d))
     axs[0].tick_params(axis='x', labelsize=10)
     
-    df[df.pos=='TE'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black').grid(axis = 'y')
+    df[df.pos=='TE'].groupby('round')[['ppr_pts']].mean().plot(ax=axs[1], color='black', legend = None).grid(axis = 'y')
+    axs[1].set_title('Optimal Draft Rounds')
     axs[1].set_xlabel('Round Drafted')
-    axs[1].set_ylabel(' ')
+    axs[1].set_ylabel('Avg Points Scored')
     axs[1].axvline(x=2, color = 'red', linestyle = '--')
     axs[1].axvline(x=4, color = 'red', linestyle = '--')
     axs[1].axvline(x=10, color = 'green', linestyle = 'dashdot')
