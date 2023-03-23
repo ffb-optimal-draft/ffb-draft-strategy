@@ -108,8 +108,6 @@ def qb_draft_strat(df):
 
 def rb_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Running Back Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
     df[df.pos=='RB'].groupby('pos_rank')['ppr_pts'].mean()[0:42].plot(ax=axs[0], color='black').grid(axis = 'y')
     axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
@@ -133,8 +131,6 @@ def rb_draft_strat(df):
 
 def wr_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Wide Receiver Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
-
     df[df.pos=='WR'].groupby('pos_rank')['ppr_pts'].mean()[0:42].plot(ax=axs[0], color='black').grid(axis = 'y')
     axs[0].set_title('Difference Makers')
     axs[0].set_xlabel('Avg Position Rank')
@@ -157,7 +153,6 @@ def wr_draft_strat(df):
 
 def te_draft_strat(df):
     fig, axs = plt.subplots(1, 2, figsize=(10, 4))
-    fig.suptitle('Tight Ends Draft Strategy', fontsize=24, fontweight='bold', y=1.1)
     a, b, c, d = 6, 12, 18, 24
     df[df.pos=='TE'].groupby('pos_rank')['ppr_pts'].mean()[0:24].plot(ax=axs[0], color='black').grid(axis = 'y')
     axs[0].set_title('Difference Makers')
