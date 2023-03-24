@@ -20,21 +20,24 @@
  - Perform Data acquisition and Preparation
  - Analyze Data features and analyze sports trends and patterns. 
  - Establish baseline of model using baseline methods. 
-   * [This space left intentionally blank.]
-   * [This space left intentionally blank.]
-   * [This space left intentionally blank.]
+   * We took the mean of the number of ppr pts scored for a baseline of 113. 
  - Create Machine Learning model to predict and forecast season projections.
-   * [This space left intentionally blank.]
-   * [This space left intentionally blank.]
-   * [This space left intentionally blank.]
+   * We used XGBRegressor and RidgeRegressor functions for our two primary models.
+   * We split the data frame up into 4 different dataframes. One for each position.
+   * We added new columns such as reception percentage, interception percentage, etc.
+   * Afterwards, we trained our models on how many ppr points a player scored did from 2018-2020.
+   * We validated our model on the years 2021 and 2022.
+   * Finally our test/projection set is projections for the upcoming 2023 season.
  - Draw and record conclusions
-
+   * Our conclusions are the model is predictings as expected.
+   * The number of ppr points scored are within reason for each position.
+   * The players in the top 25-50 for each position make sense and are within reason. 
 
  ## Data Dictionary
 
  |Target Variable | Definition|
  |-----------------|-----------|
- | [Target Name] | [Target Features and Definitions] |
+ | Target | The number of ppr points a player scored in the following year. |
 
  | Feature  | Definition |
  |----------|------------|
