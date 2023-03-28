@@ -1,5 +1,9 @@
 # "Winning Draft Strategy" : Fantasy Football and Cheat sheet for PPR Leagues
 
+- Canva Link: https://www.canva.com/design/DAFdXirVmBc/OQrB5TWPEVO8BS--8ldN6A/view?utm_content=DAFdXirVmBc&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+
+- Ultimate Draft Guidebook PDF above. 
+
  ## Project Description
  Data Scientists using; pro-football-reference.com, webscraping data from football.fantasysports.yahoo.com, and yahoofantasy API, datasets to develop a machine learning model that will help to predict the players total season projections. 
 
@@ -73,10 +77,14 @@
  | Round	| The number of the average draft position for each player in Fantasy Football Leagues by Team Owners. |
 
 
- ## Conclustions and Recommendations
- - [This space is left intentionally blank]
- - [This space is left intentionally blank]
- - [This space is left intentionally blank].
+ ## Conclusions and Recommendations
+ - Acquired 13 years of data including Average Draft Position.
+ - Explored position by position and round by round for all 13 years.
+ - Modeled player performance using RidgeRegressor and XGBRegressor.
+ - Created Ultimate Draft Guidebook using the information discovered in exploration.
+ - Created Cheatsheet of players predicted PPR points scored next season. 
 
  ## Next Steps
- - [This space is left intentionally blank].
+ - Draft Simulation for all 15 rounds with a 12 man league.
+ - Test how fantasy teams do with players predicted points.
+ - Test predictions against the upcoming season to determine how accurate our model is at predicting.

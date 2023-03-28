@@ -112,6 +112,25 @@ def acquire_seasons():
         
     return df
 
+def find_pts_averages(player):
+    pts_var_avg = player.pts_var.abs().mean()
+    return pts_var_avg
+
+def pass_rec_rush():
+    
+    passing = pd.read_csv('passing.csv', index_col=0)
+    rec = pd.read_csv('receive.csv', index_col=0)
+    rush = pd.read_csv('rush.csv', index_col=0)
+
+    passing['date'] = pd.to_datetime(passing['date'])
+    rush['date'] = pd.to_datetime(rush['date'])
+    rec['date'] = pd.to_datetime(rec['date'])
+    
+    passing['year'] = passing['date'].dt.year
+    rec['year'] = rec['date'].dt.year
+    rush['year'] = rush['date'].dt.year
+    
+    return passing, rec, rush
 
 # In[4]:
 
@@ -122,6 +141,48 @@ def add_target(group):
     return group
 
 
+def var_avg_df(passing, rec, rush, df):
+    
+    s_2018 = df[df['year']>2017]
+    
+    weekly = pd.DataFrame(columns=['player', 'pts_var'])
+    pts_var_avg = pd.DataFrame(columns=['player', 'pts_var', 'year'])
+
+    for year in range(2022, 2017, -1):
+        res = rec[rec['year']==year].groupby('player')['tgt'].mean()> 5
+        res = res[res==True].index.to_list()
+
+        rec_temp = rec[(rec['year']==year) & (rec['player'].isin(res))]
+        weekly = weekly.append(rec_temp[['player'] + ['pts_var']])
+
+        qbs = passing[passing['year']==year].groupby('player')['att'].mean()> 5
+        qbs = qbs[qbs==True].index.to_list()
+
+        pass_temp = passing[(passing['year']==year) & (passing['player'].isin(qbs))]
+        weekly = weekly.append(pass_temp[['player'] + ['pts_var']])
+
+        rbs = rush[rush['year']==year].groupby('player')['att'].mean()> 5
+        rbs = rbs[rbs==True].index.to_list()
+
+        rush_temp = rush[(rush['year']==year) & (rush['player'].isin(rbs))]
+        weekly = weekly.append(rush_temp[['player'] + ['pts_var']])
+
+        pts_avg = weekly.groupby('player', group_keys=False).apply(find_pts_averages)
+        weekly_temp = pd.DataFrame(pts_avg, columns=['pts_var_avg'])
+
+        weekly_temp['year'] = year
+
+        pts_var_avg = pts_var_avg.append(weekly_temp)
+    
+    pts_var_avg = pts_var_avg.reset_index()
+    
+    pts_var_avg.drop(columns=['player','pts_var'], inplace=True)
+    pts_var_avg.rename(columns={'index':'player'}, inplace=True)
+    
+    df1 = pd.merge(left=s_2018, right=pts_var_avg, on=['player','year'], how='left')
+    df1.rename(columns={'pts_var':'pts_var_avg'}, inplace=True)
+    
+    return df1
 # In[13]:
 
 
@@ -194,7 +255,7 @@ def qb_xgb_modeling(df, cols):
                                   min_child_weight=5,n_estimators=250,subsample=.8)
     
     xgb.fit(X_train[cols], y_train, eval_set=[(X_train[cols], y_train), (X_val[cols], y_val)],
-           early_stopping_rounds=25)
+           early_stopping_rounds=25, verbose=False)
     xgb_preds = xgb.predict(X_train[cols])
     
     preds = pd.DataFrame({'actual':y_train,
@@ -216,7 +277,7 @@ def qb_xgb_modeling(df, cols):
                              'actual':val_2022['ppr_pts'],
                              'preds':xgb.predict(val_2022[cols])})
     
-    return preds, val_preds, pos_2023, pos_2022
+    return preds, val_preds
 
 
 # In[14]:
@@ -248,7 +309,7 @@ def rb_xgb_modeling(df, cols):
                                 min_child_weight=1,n_estimators=250,subsample=.7)
     
     xgb.fit(X_train[cols], y_train, eval_set=[(X_train[cols], y_train), (X_val[cols], y_val)],
-           early_stopping_rounds=25)
+           early_stopping_rounds=25, verbose=False)
     xgb_preds = xgb.predict(X_train[cols])
     
     preds = pd.DataFrame({'actual':y_train,
@@ -270,7 +331,7 @@ def rb_xgb_modeling(df, cols):
                              'actual':val_2022['ppr_pts'],
                              'preds':xgb.predict(val_2022[cols])})
     
-    return preds, val_preds, pos_2023, pos_2022
+    return preds, val_preds
 
 
 # In[15]:
@@ -302,7 +363,7 @@ def wrte_xgb_modeling(df, cols):
                                min_child_weight=1,n_estimators=500,subsample=.85)
     
     xgb.fit(X_train[cols], y_train, eval_set=[(X_train[cols], y_train), (X_val[cols], y_val)],
-           early_stopping_rounds=5)
+           early_stopping_rounds=5, verbose=False)
     xgb_preds = xgb.predict(X_train[cols])
     
     preds = pd.DataFrame({'actual':y_train,
@@ -324,11 +385,23 @@ def wrte_xgb_modeling(df, cols):
                              'actual':val_2022['ppr_pts'],
                              'preds':xgb.predict(val_2022[cols])})
     
-    return preds, val_preds, pos_2023, pos_2022
+    return preds, val_preds
 
 
 # In[10]:
+def round_preds(train_rmse, val_rmse):
+    train_rmse = round(train_rmse, 2)
+    val_rmse = round(val_rmse, 2)
+    
+    return train_rmse, val_rmse
 
+def avg_rmse(qb_rmse, qb_val_rmse, rb_rmse, rb_val_rmse, wr_rmse, wr_val_rmse, te_rmse, te_val_rmse):
+    
+    train_avg = round(((qb_rmse + rb_rmse + wr_rmse + te_rmse)/4),2)
+    val_avg = round(((qb_val_rmse + rb_val_rmse + wr_val_rmse + te_val_rmse)/4),2)
+    
+    print(f'The average RMSE for the train dataset is: {train_avg}')
+    print(f'The average RMSE for the validate dataset is: {val_avg}')
 
 qb_cols = ['age','g','gs','pass_yds','pass_tds','rush_att','rush_yard','y/a','rush_tds',
            'fmb','fl','rush_rec_tds','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round','ppr_pts',
