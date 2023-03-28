@@ -148,34 +148,19 @@ def split_pos(df):
     qb_df['comp%'] = round((qb_df['cmp'] / qb_df['pass_att']) * 100, 2)
     qb_df['int%'] = round((qb_df['int'] / qb_df['pass_att']) * 100, 2)
     
-    qb_df.drop(columns=['rk','pos','tgt','rec','rec_yards','y/r','rec_tds','standard_pts','vbd', 'team',
+    qb_df.drop(columns=['rk','pos','tgt','rec','rec_yards','y/r','rec_tds','vbd', 'team',
                         'cmp','pass_att','int'], inplace=True)
-    rb_df.drop(columns=['rk','team','pos','cmp','pass_att','pass_yds','pass_tds','int','standard_pts','vbd'], inplace=True)
+    rb_df.drop(columns=['rk','team','pos','cmp','pass_att','pass_yds','pass_tds','int','vbd'], inplace=True)
     wr_df.drop(columns=['rk','team','pos','cmp','pass_tds','pass_att','pass_yds','int','rush_att','rush_yard','y/a','rush_tds',
-                    'standard_pts','vbd'],inplace=True)
+                    'vbd'],inplace=True)
     te_df.drop(columns=['rk','team','pos','cmp','pass_att','pass_yds','pass_tds','int','rush_att','rush_yard','y/a',
-                    'rush_tds','standard_pts','vbd'], inplace=True)
+                    'rush_tds','vbd'], inplace=True)
     
     qb_df = add_target(qb_df)
     rb_df = add_target(rb_df)
     wr_df = add_target(wr_df)
     te_df = add_target(te_df)    
-    
-    qb_inverse_cols = ['int','fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in qb_inverse_cols:
-        qb_df[col] *= -1
-        
-    rb_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in rb_inverse_cols:
-        rb_df[col] *= -1
-        
-    wr_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in wr_inverse_cols:
-        wr_df[col] *= -1
-        
-    te_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in te_inverse_cols:
-        te_df[col] *= -1
+
                 
     return qb_df, rb_df, wr_df, te_df
 
