@@ -160,22 +160,7 @@ def split_pos(df):
     rb_df = add_target(rb_df)
     wr_df = add_target(wr_df)
     te_df = add_target(te_df)    
-    
-    qb_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in qb_inverse_cols:
-        qb_df[col] *= -1
-        
-    rb_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in rb_inverse_cols:
-        rb_df[col] *= -1
-        
-    wr_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in wr_inverse_cols:
-        wr_df[col] *= -1
-        
-    te_inverse_cols = ['fmb','fl','pos_rank','avg_draft_pos','avg_draft_pos_ppr','adp_by_pos','round']
-    for col in te_inverse_cols:
-        te_df[col] *= -1
+
                 
     return qb_df, rb_df, wr_df, te_df
 
